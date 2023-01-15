@@ -30,7 +30,7 @@ END_VAR
         </Implementation>
       </Get>
       <Set Name="Set" Id="{edca88e8-7f39-4bc4-bc10-9ac8b5f5d3a5}">
-        <Declaration><![CDATA[PROTECTED 
+        <Declaration><![CDATA[PROTECTED
 VAR
 END_VAR
 ]]></Declaration>
