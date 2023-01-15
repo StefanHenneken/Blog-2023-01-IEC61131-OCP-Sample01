@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="MAIN" Id="{79961382-ab79-4f28-a3a8-40d9a82cec0a}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	fbPlayList		: FB_SequenceManager;
+	nTest			: INT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF (nTest = 1) THEN
+	fbPlayList.Sort(E_SortedOrder.Id);
+	nTest := 0;
+ELSIF (nTest = 2) THEN
+	fbPlayList.Sort(E_SortedOrder.Value);
+	nTest := 0;
+END_IF
+]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_SequenceManager" Id="{21f08d35-dc5a-4847-b483-51cd272efd56}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC FB_SequenceManager
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	// backing variable
+	_aSequence	: ARRAY [1..5] OF ST_SequenceItem := [(nId := 1, nValue := 50, nDuration := 20),
+													  (nId := 2, nValue := 10, nDuration := 30),
+													  (nId := 3, nValue := 23, nDuration := 10),
+													  (nId := 4, nValue := 65, nDuration := 200),
+													  (nId := 5, nValue := 45, nDuration := 75)];
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Property Name="aSequence" Id="{6a229e55-88bf-4d78-9cd2-39bbed3d76d8}">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'variable'}
+PROPERTY PUBLIC aSequence : ARRAY [1..5] OF ST_SequenceItem]]></Declaration>
+      <Get Name="Get" Id="{4a41d77b-82a2-46e4-b38f-741866fd7081}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[aSequence := _aSequence;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{edca88e8-7f39-4bc4-bc10-9ac8b5f5d3a5}">
+        <Declaration><![CDATA[PROTECTED 
+VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_aSequence := aSequence;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="Sort" Id="{680a2a16-38f1-414f-9589-f69912b5dea7}">
+      <Declaration><![CDATA[METHOD PUBLIC Sort
+VAR_INPUT
+	eSortedOrder		: E_SortedOrder;
+END_VAR
+VAR
+	stLeft, stRight		: ST_SequenceItem;
+	nMax, nIndex		: DINT;
+	bSwapped			: BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE eSortedOrder OF
+	E_SortedOrder.Id:
+		REPEAT
+			bSwapped := FALSE;
+			FOR nIndex := 1 TO 4 DO
+				stLeft := THIS^._aSequence[nIndex];
+				stRight := THIS^._aSequence[nIndex + 1];
+				IF (stLeft.nId > stRight.nId) THEN
+					THIS^._aSequence[nIndex + 1] := stLeft;
+					THIS^._aSequence[nIndex] := stRight;
+					bSwapped := TRUE;
+				END_IF
+			END_FOR
+		UNTIL
+			bSwapped = FALSE
+		END_REPEAT;
+
+	E_SortedOrder.Value:
+		REPEAT
+			bSwapped := FALSE;
+			FOR nIndex := 1 TO 4 DO
+				stLeft := THIS^._aSequence[nIndex];
+				stRight := THIS^._aSequence[nIndex + 1];
+				IF (stLeft.nValue > stRight.nValue) THEN
+					THIS^._aSequence[nIndex + 1] := stLeft;
+					THIS^._aSequence[nIndex] := stRight;
+					bSwapped := TRUE;
+				END_IF
+			END_FOR
+		UNTIL
+			bSwapped = FALSE
+		END_REPEAT;
+END_CASE
+]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

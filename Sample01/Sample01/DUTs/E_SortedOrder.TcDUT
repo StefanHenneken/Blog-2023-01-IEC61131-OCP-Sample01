@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="E_SortedOrder" Id="{45e7b8db-34dd-4792-8af4-273b6f18b316}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE E_SortedOrder :
+(
+	Id,
+	Value
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>
